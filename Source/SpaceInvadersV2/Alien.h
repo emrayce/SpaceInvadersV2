@@ -1,0 +1,51 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
+
+#include "Components/StaticMeshComponent.h"
+
+#include "Alien.generated.h"
+
+UCLASS()
+class SPACEINVADERSV2_API AAlien : public AActor
+{
+	GENERATED_BODY()
+	
+public:	
+	// Sets default values for this actor's properties
+	AAlien();
+
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	uint8 GetXPos();
+	uint8 GetYPos();
+
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* Mesh;
+
+	// Position of the alien in the alien list
+	uint8 XPos;
+	uint8 YPos;
+	// Waiting time before another movement
+	UPROPERTY(EditDefaultsOnly, Category = "AlienMovement")
+	float TimeBeforeMove; // TODO: Has to be changed as the number of aliens go down
+	float Timer;
+	// Number of lateral move before a down move
+	UPROPERTY(EditDefaultsOnly, Category = "AlienMovement")
+	uint8 LateralMoveNumberBeforeDownMove;
+	uint8 CurrentLateralMove;
+	// Decide if it goes to the left or the right
+	int Direction;
+
+	UPROPERTY(EditAnywhere, Category = "AlienMovement")
+	int Speed;
+};
