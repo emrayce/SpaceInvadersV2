@@ -30,6 +30,8 @@
 .vscode
 # VSCode History Files
 **/.history
+# VSCode config file
+.vsconfig
 
 #################################
 # Miscellaneous Generated Files #
