@@ -22,7 +22,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	uint8 GetXPos();
+	void  SetXPos(uint8 x);
 	uint8 GetYPos();
+	void  SetYPos(uint8 y);
 
 protected:
 	// Called when the game starts or when spawned

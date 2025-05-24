@@ -21,6 +21,7 @@ void AAlien::BeginPlay()
 	Timer = TimeBeforeMove;
 	CurrentLateralMove = 0;
 	Direction = -1;
+
 }
 
 // Called every frame
@@ -34,15 +35,15 @@ void AAlien::Tick(float DeltaTime)
 		if (CurrentLateralMove == LateralMoveNumberBeforeDownMove)
 		{
 			// Down move
-			SetActorLocation(GetActorLocation() - FVector(0, 10, 0));
+			SetActorLocation(GetActorLocation() + FVector(0, 100, 0));
 			Direction = -Direction;
 			CurrentLateralMove = 0;
 		}
 		else
 		{
 			// Lateral move
-			SetActorLocation(GetActorLocation() - FVector(10 * Direction, 0, 0));
-			CurrentLateralMove = 0;
+			SetActorLocation(GetActorLocation() + FVector(100 * Direction, 0, 0));
+			CurrentLateralMove++;
 		}
 		Timer = TimeBeforeMove;
 	}
@@ -53,7 +54,17 @@ uint8 AAlien::GetXPos()
 	return XPos;
 }
 
+void AAlien::SetXPos(uint8 x)
+{
+	XPos = x;
+}
+
 uint8 AAlien::GetYPos()
 {
 	return YPos;
+}
+
+void AAlien::SetYPos(uint8 y)
+{
+	YPos = y;
 }
