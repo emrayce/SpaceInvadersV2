@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 
 #include "Alien.h"
+#include "Camera/CameraActor.h"
+
 #include "ClassicGameMode.generated.h"
 
 /**
@@ -28,10 +30,10 @@ private:
 	// Matrix holding the references to the aliens
 	AAlien* Aliens[NB_ALIENS_ROW][NB_ALIENS_COLUMN];
 
-	UPROPERTY(EditAnywhere, NoClear, Category = "Aliens")
+	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> SmallAlien;
-	UPROPERTY(EditAnywhere, NoClear, Category = "Aliens")
+	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> MediumAlien;
-	UPROPERTY(EditAnywhere, NoClear, Category = "Aliens")
+	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> BigAlien;
 };
