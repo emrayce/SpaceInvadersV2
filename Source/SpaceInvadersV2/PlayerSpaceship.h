@@ -6,6 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/FloatingPawnMovement.h"
 
+#include "Projectile.h"
+
 #include "PlayerSpaceship.generated.h"
 
 UCLASS()
@@ -38,6 +40,8 @@ private:
 	float Speed;
 	UPROPERTY(EditDefaultsOnly)
 	UFloatingPawnMovement* MovementComponent; // Needed to move with AddMovementInput
+	UPROPERTY(EditDefaultsOnly, NoClear)
+	TSubclassOf<AProjectile> Projectile;
 	// The player can shoot when a condition is fulfilled
 	bool CanShoot;
 

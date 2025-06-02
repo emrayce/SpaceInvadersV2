@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Projectile.h"
 
 #include "Alien.generated.h"
 
@@ -33,6 +34,8 @@ protected:
 private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<AProjectile> ProjectileToSpawn;
 
 	// Position of the alien in the alien list
 	uint8 XPos;

@@ -22,7 +22,6 @@ void APlayerSpaceshipController::SetupInputComponent()
 
 void APlayerSpaceshipController::CallMove(float AxisValue)
 {
-    GLog->Log("SAUUUUUUTE");
     PossessedPawn->Move(AxisValue);
 }
 

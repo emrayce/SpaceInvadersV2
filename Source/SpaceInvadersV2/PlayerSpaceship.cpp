@@ -12,6 +12,8 @@ APlayerSpaceship::APlayerSpaceship()
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>("FloatingPawnMovement");
 
+	CanShoot = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -33,18 +35,21 @@ void APlayerSpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	//InputComponent->BindAxis("Horizontal", this, &APlayerSpaceship::Move);
-	//InputComponent->BindAction("Shoot", IE_Pressed, this, &APlayerSpaceship::Shoot);
-
 }
 
 void APlayerSpaceship::Shoot()
 {
-	// do nothing yet
+	if (CanShoot)
+	{
+		FVector SpawnLocation = GetActorLocation();
+		SpawnLocation.Y -= 150;
+		GetWorld()->SpawnActor(Projectile, &SpawnLocation);
+		CanShoot = false;
+	}
 }
 
 void APlayerSpaceship::Move(float AxisValue)
 {
-	AddMovementInput(GetActorRightVector(), AxisValue);
+	AddMovementInput(GetActorForwardVector(), AxisValue);
 }
 
