@@ -31,7 +31,7 @@ void AClassicGameMode::SpawnAliens()
 				AlienToBeSpawned = BigAlien;
 			}
 
-			FVector				  Position(250 * col, 250 * row, 100);
+			FVector				  Position(125 * col, 125 * row, 100);
 			FRotator			  Rotation(0, 0, 0);
 			FTransform			  Transform(Rotation, Position);
 			Aliens[row][col] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform);
