@@ -17,16 +17,9 @@ void APlayerSpaceshipController::SetupInputComponent()
 
     //Set up gameplay input bindings
     InputComponent->BindAxis("Horizontal", this, &APlayerSpaceshipController::CallMove);
-    InputComponent->BindAction("Shoot", IE_Pressed, this, &APlayerSpaceshipController::CallShoot);
 }
 
 void APlayerSpaceshipController::CallMove(float AxisValue)
 {
     PossessedPawn->Move(AxisValue);
-}
-
-void APlayerSpaceshipController::CallShoot()
-{
-    GLog->Log("TIIIIIIIIIRE!");
-    PossessedPawn->Shoot();
 }

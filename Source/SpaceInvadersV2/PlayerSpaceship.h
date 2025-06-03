@@ -25,7 +25,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void Shoot();
 	void Move(float AxisValue);
 
 protected:
@@ -33,16 +32,20 @@ protected:
 	virtual void BeginPlay() override;
 
 
-private:
+protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Mesh;
 	UPROPERTY(EditDefaultsOnly)
 	float Speed;
 	UPROPERTY(EditDefaultsOnly)
 	UFloatingPawnMovement* MovementComponent; // Needed to move with AddMovementInput
-	UPROPERTY(EditDefaultsOnly, NoClear)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, NoClear, Category = "Projectile")
 	TSubclassOf<AProjectile> Projectile;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile")
+	FVector ProjectileOffset;
+
 	// The player can shoot when a condition is fulfilled
+	UPROPERTY(BlueprintReadWrite)
 	bool CanShoot;
 
 };

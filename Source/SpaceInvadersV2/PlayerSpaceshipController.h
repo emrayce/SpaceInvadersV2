@@ -24,7 +24,6 @@ public:
 private:
 	
 	void CallMove(float AxisValue);
-	void CallShoot();
 
 	APlayerSpaceship* PossessedPawn;
 	

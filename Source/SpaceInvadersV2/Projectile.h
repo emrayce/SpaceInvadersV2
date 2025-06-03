@@ -3,11 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-
 #include "Components/StaticMeshComponent.h"
+#include "Components/SphereComponent.h"
+
+#include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 #include "Projectile.generated.h"
+
 
 UCLASS()
 class SPACEINVADERSV2_API AProjectile : public AActor
@@ -25,6 +28,13 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditDefaultsOnly)
+	UProjectileMovementComponent* MovementComponent;
+	UPROPERTY(EditDefaultsOnly)
+	USphereComponent* Collider;
+	UPROPERTY(EditAnywhere)
+	float Speed;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 };

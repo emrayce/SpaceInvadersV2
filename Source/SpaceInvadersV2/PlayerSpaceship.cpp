@@ -10,6 +10,7 @@ APlayerSpaceship::APlayerSpaceship()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
+	RootComponent = Mesh;
 	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>("FloatingPawnMovement");
 
 	CanShoot = true;
@@ -35,17 +36,7 @@ void APlayerSpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
 
-void APlayerSpaceship::Shoot()
-{
-	if (CanShoot)
-	{
-		FVector SpawnLocation = GetActorLocation();
-		SpawnLocation.Y -= 150;
-		GetWorld()->SpawnActor(Projectile, &SpawnLocation);
-		CanShoot = false;
-	}
 }
 
 void APlayerSpaceship::Move(float AxisValue)
