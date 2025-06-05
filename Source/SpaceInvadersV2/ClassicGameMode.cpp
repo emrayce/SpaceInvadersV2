@@ -7,12 +7,18 @@ void AClassicGameMode::InitGameState()
 {
 	Super::InitGameState();
 
-	// Fill the matrix and spawn aliens
+	// Init and fill the matrix and spawn aliens
 	SpawnAliens();
 }
 
+uint8 AClassicGameMode::Index(uint8 row, uint8 column)
+{
+	return row + (column * NB_ALIENS_ROW);
+} 
+
 void AClassicGameMode::SpawnAliens()
 {
+	Aliens.Init(nullptr, NB_ALIENS_COLUMN * NB_ALIENS_ROW);
 	TSubclassOf<AActor> AlienToBeSpawned;
 	for (uint8 row = 0; row < NB_ALIENS_ROW; row++)
 	{
@@ -34,9 +40,15 @@ void AClassicGameMode::SpawnAliens()
 			FVector				  Position(125 * col, 125 * row, 100);
 			FRotator			  Rotation(0, 0, 0);
 			FTransform			  Transform(Rotation, Position);
-			Aliens[row][col] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform);
-			Aliens[row][col]->SetYPos(row);
-			Aliens[row][col]->SetXPos(col);
+			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform);
+			Aliens[Index(row, col)]->SetRowPos(row);
+			Aliens[Index(row, col)]->SetColPos(col);
 		}
 	}
+}
+
+// Replace a pointer to an AAlien by a nullptr. Keeping the size of the array.
+void AClassicGameMode::RemoveAlien(uint8 row, uint8 col)
+{
+	Aliens[Index(row, col)] = nullptr;
 }

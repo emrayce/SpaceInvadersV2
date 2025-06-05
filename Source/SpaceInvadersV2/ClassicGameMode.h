@@ -24,11 +24,17 @@ class SPACEINVADERSV2_API AClassicGameMode : public AGameModeBase
 
 public:
 	void InitGameState() override;
-	void SpawnAliens();
 
-private:
+
+protected:
+	void SpawnAliens();
+	UFUNCTION(BlueprintCallable)
+	void RemoveAlien(uint8 col, uint8 row);
 	// Matrix holding the references to the aliens
-	AAlien* Aliens[NB_ALIENS_ROW][NB_ALIENS_COLUMN];
+	UPROPERTY(BlueprintReadOnly)
+	TArray<AAlien*> Aliens;
+
+	uint8 Index(uint8 row, uint8 collumn);
 
 	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> SmallAlien;

@@ -6,9 +6,15 @@
 #include "GameFramework/Actor.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
+
 #include "Projectile.h"
 
 #include "Alien.generated.h"
+
+
+UDELEGATE()
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUpdateAlien, uint8, col, uint8, row);
 
 UCLASS()
 class SPACEINVADERSV2_API AAlien : public AActor
@@ -22,24 +28,27 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	uint8 GetXPos();
-	void  SetXPos(uint8 x);
-	uint8 GetYPos();
-	void  SetYPos(uint8 y);
+	uint8 GetColPos();
+	void  SetColPos(uint8 x);
+	uint8 GetRowPos();
+	void  SetRowPos(uint8 y);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditDefaultsOnly)
+	UBoxComponent* Collider;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AProjectile> ProjectileToSpawn;
 
 	// Position of the alien in the alien list
-	uint8 XPos;
-	uint8 YPos;
+	UPROPERTY(BlueprintReadOnly)
+	uint8 Column;
+	UPROPERTY(BlueprintReadOnly)
+	uint8 Row;
 	// Waiting time before another movement
 	UPROPERTY(EditDefaultsOnly, Category = "AlienMovement")
 	float TimeBeforeMove; // TODO: Has to be changed as the number of aliens go down
@@ -53,4 +62,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "AlienMovement")
 	int Speed;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FUpdateAlien UpdateAlienTrigger;
 };

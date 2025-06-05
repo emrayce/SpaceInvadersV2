@@ -11,6 +11,7 @@ AAlien::AAlien()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
 	RootComponent = Mesh;
+	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 }
 
 // Called when the game starts or when spawned
@@ -49,22 +50,22 @@ void AAlien::Tick(float DeltaTime)
 	}
 }
 
-uint8 AAlien::GetXPos()
+uint8 AAlien::GetColPos()
 {
-	return XPos;
+	return Column;
 }
 
-void AAlien::SetXPos(uint8 x)
+void AAlien::SetColPos(uint8 x)
 {
-	XPos = x;
+	Column = x;
 }
 
-uint8 AAlien::GetYPos()
+uint8 AAlien::GetRowPos()
 {
-	return YPos;
+	return Row;
 }
 
-void AAlien::SetYPos(uint8 y)
+void AAlien::SetRowPos(uint8 y)
 {
-	YPos = y;
+	Row = y;
 }
