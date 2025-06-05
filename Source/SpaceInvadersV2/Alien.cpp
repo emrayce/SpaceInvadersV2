@@ -21,7 +21,7 @@ void AAlien::BeginPlay()
 
 	Timer = TimeBeforeMove;
 	CurrentLateralMove = 0;
-	Direction = -1;
+	Direction = 1;
 
 }
 
@@ -43,7 +43,7 @@ void AAlien::Tick(float DeltaTime)
 		else
 		{
 			// Lateral move
-			SetActorLocation(GetActorLocation() + FVector(100 * Direction, 0, 0));
+			SetActorLocation(GetActorLocation() + FVector(50 * Direction, 0, 0));
 			CurrentLateralMove++;
 		}
 		Timer = TimeBeforeMove;
