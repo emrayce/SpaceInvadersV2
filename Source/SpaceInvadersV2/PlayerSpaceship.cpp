@@ -41,6 +41,6 @@ void APlayerSpaceship::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void APlayerSpaceship::Move(float AxisValue)
 {
-	AddMovementInput(GetActorForwardVector(), AxisValue);
+	AddMovementInput(GetActorRightVector(), AxisValue);
 }
 

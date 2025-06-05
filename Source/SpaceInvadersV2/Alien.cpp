@@ -36,7 +36,7 @@ void AAlien::Tick(float DeltaTime)
 		if (CurrentLateralMove == LateralMoveNumberBeforeDownMove)
 		{
 			// Down move
-			SetActorLocation(GetActorLocation() + FVector(0, 100, 0));
+			SetActorLocation(GetActorLocation() + FVector(0, 50, 0));
 			Direction = -Direction;
 			CurrentLateralMove = 0;
 		}
