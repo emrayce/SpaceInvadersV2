@@ -8,7 +8,9 @@ void AClassicGameMode::InitGameState()
 	Super::InitGameState();
 
 	// Init and fill the matrix and spawn aliens
+	AlienCount = 0;
 	SpawnAliens();
+	Score = 0;
 }
 
 uint8 AClassicGameMode::Index(uint8 row, uint8 column)
@@ -43,6 +45,7 @@ void AClassicGameMode::SpawnAliens()
 			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform);
 			Aliens[Index(row, col)]->SetRowPos(row);
 			Aliens[Index(row, col)]->SetColPos(col);
+			++AlienCount;
 		}
 	}
 }

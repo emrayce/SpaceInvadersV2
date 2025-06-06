@@ -30,16 +30,20 @@ protected:
 	void SpawnAliens();
 	UFUNCTION(BlueprintCallable)
 	void RemoveAlien(uint8 col, uint8 row);
+	uint8 Index(uint8 row, uint8 collumn);
 	// Matrix holding the references to the aliens
 	UPROPERTY(BlueprintReadOnly)
 	TArray<AAlien*> Aliens;
-
-	uint8 Index(uint8 row, uint8 collumn);
-
 	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> SmallAlien;
 	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> MediumAlien;
 	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> BigAlien;
+	// Score of player
+	UPROPERTY(BlueprintReadWrite)
+	int32 Score;
+	// Number of alien. Once it reaches 0 it's the end
+	UPROPERTY(BlueprintReadWrite)
+	int32 AlienCount;
 };

@@ -22,7 +22,6 @@ void AAlien::BeginPlay()
 	Timer = TimeBeforeMove;
 	CurrentLateralMove = 0;
 	Direction = 1;
-
 }
 
 // Called every frame
@@ -50,7 +49,7 @@ void AAlien::Tick(float DeltaTime)
 	}
 }
 
-uint8 AAlien::GetColPos()
+uint8 AAlien::GetColPos() const
 {
 	return Column;
 }
@@ -60,7 +59,7 @@ void AAlien::SetColPos(uint8 x)
 	Column = x;
 }
 
-uint8 AAlien::GetRowPos()
+uint8 AAlien::GetRowPos() const
 {
 	return Row;
 }

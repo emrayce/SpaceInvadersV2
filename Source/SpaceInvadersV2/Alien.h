@@ -14,7 +14,7 @@
 
 
 UDELEGATE()
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUpdateAlien, uint8, col, uint8, row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAlienDeath, uint8, col, uint8, row, uint8, score);
 
 UCLASS()
 class SPACEINVADERSV2_API AAlien : public AActor
@@ -28,9 +28,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	uint8 GetColPos();
+	uint8 GetColPos() const;
 	void  SetColPos(uint8 x);
-	uint8 GetRowPos();
+	uint8 GetRowPos() const;
 	void  SetRowPos(uint8 y);
 
 protected:
@@ -62,7 +62,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "AlienMovement")
 	int Speed;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	uint8 Score;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FUpdateAlien UpdateAlienTrigger;
+	FAlienDeath AlienDeathTrigger;
 };
