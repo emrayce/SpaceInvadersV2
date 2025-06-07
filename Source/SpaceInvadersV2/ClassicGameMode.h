@@ -24,13 +24,18 @@ class SPACEINVADERSV2_API AClassicGameMode : public AGameModeBase
 
 public:
 	void InitGameState() override;
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 
 
 protected:
 	void SpawnAliens();
 	UFUNCTION(BlueprintCallable)
 	void RemoveAlien(uint8 col, uint8 row);
-	uint8 Index(uint8 row, uint8 collumn);
+	UFUNCTION(BlueprintCallable)
+	void MakeAlienShoot();
+	uint8 Index(uint8 row, uint8 column);
 	// Matrix holding the references to the aliens
 	UPROPERTY(BlueprintReadOnly)
 	TArray<AAlien*> Aliens;
@@ -40,10 +45,16 @@ protected:
 	TSubclassOf<AAlien> MediumAlien;
 	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlien> BigAlien;
+	// Time between two shots
+	UPROPERTY(EditDefaultsOnly, Category = "Aliens");
+	float AttackDelay;
 	// Score of player
 	UPROPERTY(BlueprintReadWrite)
 	int32 Score;
 	// Number of alien. Once it reaches 0 it's the end
 	UPROPERTY(BlueprintReadWrite)
 	int32 AlienCount;
+
+private:
+	float CurrentAttackDelay;
 };

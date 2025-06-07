@@ -11,7 +11,6 @@ AAlien::AAlien()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
 	RootComponent = Mesh;
-	Collider = CreateDefaultSubobject<UBoxComponent>(TEXT("Collider"));
 }
 
 // Called when the game starts or when spawned
@@ -67,4 +66,10 @@ uint8 AAlien::GetRowPos() const
 void AAlien::SetRowPos(uint8 y)
 {
 	Row = y;
+}
+
+AProjectile* AAlien::Shoot()
+{
+	FVector pos = GetActorLocation() + FVector(0, 50, 0); // give a little offset to spawn in ront of the player
+	return GetWorld()->SpawnActor<AProjectile>(ProjectileToSpawn, pos, FRotator(0, 0, 0));
 }

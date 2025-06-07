@@ -2,6 +2,8 @@
 
 
 #include "ClassicGameMode.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Math/UnrealMathUtility.h"
 
 void AClassicGameMode::InitGameState()
 {
@@ -9,8 +11,22 @@ void AClassicGameMode::InitGameState()
 
 	// Init and fill the matrix and spawn aliens
 	AlienCount = 0;
-	SpawnAliens();
 	Score = 0;
+	CurrentAttackDelay = AttackDelay;
+	SpawnAliens();
+
+}
+
+void AClassicGameMode::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	CurrentAttackDelay -= DeltaTime;
+	if (CurrentAttackDelay <= 0)
+	{
+		MakeAlienShoot();
+		CurrentAttackDelay = AttackDelay;
+	}
 }
 
 uint8 AClassicGameMode::Index(uint8 row, uint8 column)
@@ -54,4 +70,18 @@ void AClassicGameMode::SpawnAliens()
 void AClassicGameMode::RemoveAlien(uint8 row, uint8 col)
 {
 	Aliens[Index(row, col)] = nullptr;
+}
+
+void AClassicGameMode::MakeAlienShoot()
+{
+	int32 randIndex = 0;
+
+	do
+	{
+		randIndex = FMath::RandRange(0, Aliens.Num() - 1);
+	} while (Aliens[randIndex] == nullptr);
+
+	Aliens[randIndex]->Shoot();
+
+
 }
