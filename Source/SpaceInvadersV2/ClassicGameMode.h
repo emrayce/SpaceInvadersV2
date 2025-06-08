@@ -54,6 +54,9 @@ protected:
 	// Number of alien. Once it reaches 0 it's the end
 	UPROPERTY(BlueprintReadWrite)
 	int32 AlienCount;
+	// Player's life. once it reaches 0 it 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gameplay")
+	uint8 PlayerLife;
 
 private:
 	float CurrentAttackDelay;

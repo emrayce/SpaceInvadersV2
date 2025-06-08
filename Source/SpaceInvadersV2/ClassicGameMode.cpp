@@ -2,12 +2,14 @@
 
 
 #include "ClassicGameMode.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/GameplayStatics.h"
 #include "Math/UnrealMathUtility.h"
 
 void AClassicGameMode::InitGameState()
 {
 	Super::InitGameState();
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	PrimaryActorTick.bCanEverTick = true;
 
 	// Init and fill the matrix and spawn aliens
 	AlienCount = 0;
@@ -22,8 +24,13 @@ void AClassicGameMode::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CurrentAttackDelay -= DeltaTime;
+	if (PlayerLife == 0 || AlienCount == 0)
+	{
+		UGameplayStatics::GetPlayerController(GetWorld(), 0)->ConsoleCommand("quit");
+	}
 	if (CurrentAttackDelay <= 0)
 	{
+		GLog->Log("Allo ?");
 		MakeAlienShoot();
 		CurrentAttackDelay = AttackDelay;
 	}
@@ -82,6 +89,4 @@ void AClassicGameMode::MakeAlienShoot()
 	} while (Aliens[randIndex] == nullptr);
 
 	Aliens[randIndex]->Shoot();
-
-
 }

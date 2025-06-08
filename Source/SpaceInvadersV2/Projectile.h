@@ -31,8 +31,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UProjectileMovementComponent* MovementComponent;
 	UPROPERTY(EditDefaultsOnly)
-	//USphereComponent* Collider;
-	//UPROPERTY(EditAnywhere)
 	float Speed;
 
 	// Called when the game starts or when spawned
