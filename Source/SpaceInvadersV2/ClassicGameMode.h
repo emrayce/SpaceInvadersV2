@@ -6,7 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 
 #include "Alien.h"
-#include "Camera/CameraActor.h"
+#include "GameCamera.h"
 
 #include "ClassicGameMode.generated.h"
 
@@ -57,6 +57,8 @@ protected:
 	// Player's life. once it reaches 0 it 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Gameplay")
 	uint8 PlayerLife;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	AGameCamera* Camera;
 
 private:
 	float CurrentAttackDelay;

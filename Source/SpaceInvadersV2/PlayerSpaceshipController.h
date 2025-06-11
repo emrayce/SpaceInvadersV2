@@ -20,11 +20,12 @@ class SPACEINVADERSV2_API APlayerSpaceshipController : public APlayerController
 public:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
+	UFUNCTION(BlueprintCallable)
+	void UpdatePossessedPawn(APlayerSpaceship* PawnToPossessed);
 
-private:
+protected:
 	
 	void CallMove(float AxisValue);
-
+	UPROPERTY(BlueprintReadWrite)
 	APlayerSpaceship* PossessedPawn;
-	
 };

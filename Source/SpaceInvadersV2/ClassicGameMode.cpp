@@ -30,7 +30,6 @@ void AClassicGameMode::Tick(float DeltaTime)
 	}
 	if (CurrentAttackDelay <= 0)
 	{
-		GLog->Log("Allo ?");
 		MakeAlienShoot();
 		CurrentAttackDelay = AttackDelay;
 	}

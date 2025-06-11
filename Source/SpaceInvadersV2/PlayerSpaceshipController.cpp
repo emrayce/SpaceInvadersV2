@@ -9,8 +9,10 @@ void APlayerSpaceshipController::BeginPlay()
 
     // Retrieve the pawn
     PossessedPawn = Cast<APlayerSpaceship>(GetPawn());
+    bAutoManageActiveCameraTarget = false;
 }
 
+// Currently when respawning the the player doesn't move despite CallMove
 void APlayerSpaceshipController::SetupInputComponent()
 {
     Super::SetupInputComponent();
@@ -19,7 +21,19 @@ void APlayerSpaceshipController::SetupInputComponent()
     InputComponent->BindAxis("Horizontal", this, &APlayerSpaceshipController::CallMove);
 }
 
+void APlayerSpaceshipController::UpdatePossessedPawn(APlayerSpaceship* PawnToPossessed)
+{
+    if (PawnToPossessed != nullptr)
+    {
+        PossessedPawn = PawnToPossessed;
+    }
+
+}
+
 void APlayerSpaceshipController::CallMove(float AxisValue)
 {
-    PossessedPawn->Move(AxisValue);
+    if (PossessedPawn)
+    {
+        PossessedPawn->Move(AxisValue);
+    }
 }
