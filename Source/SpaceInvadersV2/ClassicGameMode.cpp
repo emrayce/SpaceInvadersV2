@@ -16,7 +16,8 @@ void AClassicGameMode::InitGameState()
 	Score = 0;
 	CurrentAttackDelay = AttackDelay;
 	SpawnAliens();
-
+	SpawnTimer = FMath::RandRange(20.0f, 50.0f);
+	AlienSpaceshipDirection = 1;
 }
 
 void AClassicGameMode::Tick(float DeltaTime)
@@ -32,6 +33,13 @@ void AClassicGameMode::Tick(float DeltaTime)
 	{
 		MakeAlienShoot();
 		CurrentAttackDelay = AttackDelay;
+	}
+
+	SpawnTimer -= DeltaTime;
+	if (SpawnTimer <= 0)
+	{
+		SpawnAlienSpaceship();
+		SpawnTimer = FMath::RandRange(20.0f, 50.0f);
 	}
 }
 
@@ -62,14 +70,32 @@ void AClassicGameMode::SpawnAliens()
 			}
 
 			FVector				  Position(125 * col, 125 * row, 100);
-			FRotator			  Rotation(0, 0, 0);
-			FTransform			  Transform(Rotation, Position);
+			FTransform			  Transform(FRotator(0, 0, 0), Position);
 			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform);
 			Aliens[Index(row, col)]->SetRowPos(row);
 			Aliens[Index(row, col)]->SetColPos(col);
 			++AlienCount;
 		}
 	}
+}
+
+void AClassicGameMode::SpawnAlienSpaceship()
+{
+	FTransform transform;
+	if (AlienSpaceshipDirection == 1)
+	{
+		transform = FTransform(FRotator(0, 0, 0), FVector(2000, -100, 50));
+
+	}
+	else
+	{
+		transform = FTransform(FRotator(0, 0, 0), FVector(-200, -100, 50));
+	}
+	AAlienSpaceship* spaceship = GetWorld()->SpawnActor<AAlienSpaceship>(AlienSpaceship, transform);
+	spaceship->SetDirection(AlienSpaceshipDirection);
+
+	// Change direcion of the next spaceship
+	AlienSpaceshipDirection = -AlienSpaceshipDirection;
 }
 
 // Replace a pointer to an AAlien by a nullptr. Keeping the size of the array.
