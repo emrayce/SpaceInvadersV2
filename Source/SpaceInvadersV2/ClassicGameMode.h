@@ -70,5 +70,5 @@ protected:
 private:
 	float CurrentAttackDelay;
 	float SpawnTimer;
-	int	  AlienSpaceshipDirection;
+	int	  AlienSpaceshipDirection; // 1 is right -1 is left
 };

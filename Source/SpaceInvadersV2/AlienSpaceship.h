@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/ProjectileMovementComponent.h"
 
 #include "AlienSpaceship.generated.h"
 
@@ -28,8 +30,11 @@ protected:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Mesh;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	UProjectileMovementComponent* MovementComponent;
 	float Speed;
-	int Direction;
+	UPROPERTY(BlueprintReadOnly)
+	int Direction; // 1 is right -1 is left
 	uint8 Score;
 
 };

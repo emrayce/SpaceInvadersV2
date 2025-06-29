@@ -13,11 +13,11 @@ void AClassicGameMode::InitGameState()
 
 	// Init and fill the matrix and spawn aliens
 	AlienCount = 0;
-	Score = 0;
+	Score = 0; 
 	CurrentAttackDelay = AttackDelay;
 	SpawnAliens();
-	SpawnTimer = FMath::RandRange(20.0f, 50.0f);
-	AlienSpaceshipDirection = 1;
+	SpawnTimer = FMath::RandRange(5.0f, 15.0f);
+	AlienSpaceshipDirection = -1; // First spaceship spawns to the right and goes the left
 }
 
 void AClassicGameMode::Tick(float DeltaTime)
@@ -39,7 +39,7 @@ void AClassicGameMode::Tick(float DeltaTime)
 	if (SpawnTimer <= 0)
 	{
 		SpawnAlienSpaceship();
-		SpawnTimer = FMath::RandRange(20.0f, 50.0f);
+		SpawnTimer = FMath::RandRange(5.0f, 15.0f);
 	}
 }
 
@@ -81,17 +81,22 @@ void AClassicGameMode::SpawnAliens()
 
 void AClassicGameMode::SpawnAlienSpaceship()
 {
+	FActorSpawnParameters ActorSpawnParameters;
+	ActorSpawnParameters.CustomPreSpawnInitalization = [&](AActor* tmpSpaceship)
+		{
+			Cast<AAlienSpaceship>(tmpSpaceship)->SetDirection(AlienSpaceshipDirection);
+		};
 	FTransform transform;
-	if (AlienSpaceshipDirection == 1)
+	if (AlienSpaceshipDirection == -1)
 	{
 		transform = FTransform(FRotator(0, 0, 0), FVector(2000, -100, 50));
 
 	}
-	else
+	else if (AlienSpaceshipDirection == 1)
 	{
 		transform = FTransform(FRotator(0, 0, 0), FVector(-200, -100, 50));
 	}
-	AAlienSpaceship* spaceship = GetWorld()->SpawnActor<AAlienSpaceship>(AlienSpaceship, transform);
+	AAlienSpaceship* spaceship = GetWorld()->SpawnActor<AAlienSpaceship>(AlienSpaceship, transform, ActorSpawnParameters);
 	spaceship->SetDirection(AlienSpaceshipDirection);
 
 	// Change direcion of the next spaceship

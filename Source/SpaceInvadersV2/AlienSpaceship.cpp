@@ -11,6 +11,7 @@ AAlienSpaceship::AAlienSpaceship()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>("Mesh");
 	RootComponent = Mesh;
+	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
 
 }
 
@@ -18,14 +19,12 @@ AAlienSpaceship::AAlienSpaceship()
 void AAlienSpaceship::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AAlienSpaceship::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AAlienSpaceship::SetDirection(int value)
