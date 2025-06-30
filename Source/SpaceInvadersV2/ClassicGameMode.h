@@ -52,9 +52,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, NoClear, Category = "Aliens")
 	TSubclassOf<AAlienSpaceship> AlienSpaceship;
 
-	// Time between two shots
-	UPROPERTY(EditDefaultsOnly, Category = "Aliens");
-	float AttackDelay;
 	// Score of player
 	UPROPERTY(BlueprintReadWrite)
 	int32 Score;
@@ -68,6 +65,7 @@ protected:
 	AGameCamera* Camera;
 
 private:
+	// Current time between two shots
 	float CurrentAttackDelay;
 	float SpawnTimer;
 	int	  AlienSpaceshipDirection; // 1 is right -1 is left

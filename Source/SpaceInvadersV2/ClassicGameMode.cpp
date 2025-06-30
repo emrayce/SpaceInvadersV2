@@ -14,7 +14,7 @@ void AClassicGameMode::InitGameState()
 	// Init and fill the matrix and spawn aliens
 	AlienCount = 0;
 	Score = 0; 
-	CurrentAttackDelay = AttackDelay;
+	CurrentAttackDelay = FMath::RandRange(0.5f, 4.0f);
 	SpawnAliens();
 	SpawnTimer = FMath::RandRange(5.0f, 15.0f);
 	AlienSpaceshipDirection = -1; // First spaceship spawns to the right and goes the left
@@ -32,7 +32,7 @@ void AClassicGameMode::Tick(float DeltaTime)
 	if (CurrentAttackDelay <= 0)
 	{
 		MakeAlienShoot();
-		CurrentAttackDelay = AttackDelay;
+		CurrentAttackDelay = FMath::RandRange(0.5f, 4.0f);
 	}
 
 	SpawnTimer -= DeltaTime;
