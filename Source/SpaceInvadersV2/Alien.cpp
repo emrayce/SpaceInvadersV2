@@ -37,6 +37,8 @@ void AAlien::Tick(float DeltaTime)
 			SetActorLocation(GetActorLocation() + FVector(0, 50, 0));
 			Direction = -Direction;
 			CurrentLateralMove = 0;
+			// Each time an alien go down he moves a little bit faster by 10%
+			TimeBeforeMove -= TimeBeforeMove * 0.1f;
 		}
 		else
 		{
