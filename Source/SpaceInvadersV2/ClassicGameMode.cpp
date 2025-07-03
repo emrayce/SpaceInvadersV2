@@ -85,6 +85,9 @@ void AClassicGameMode::SpawnAlienSpaceship()
 	ActorSpawnParameters.CustomPreSpawnInitalization = [&](AActor* tmpSpaceship)
 		{
 			Cast<AAlienSpaceship>(tmpSpaceship)->SetDirection(AlienSpaceshipDirection);
+			// Score is randomly 50 or 100
+			int score = FMath::RandRange(1, 2) % 2 == 0 ? 50 : 100;
+			Cast<AAlienSpaceship>(tmpSpaceship)->SetScore(score);
 		};
 	FTransform transform;
 	if (AlienSpaceshipDirection == -1)
@@ -97,10 +100,16 @@ void AClassicGameMode::SpawnAlienSpaceship()
 		transform = FTransform(FRotator(0, 0, 0), FVector(-200, -100, 50));
 	}
 	AAlienSpaceship* spaceship = GetWorld()->SpawnActor<AAlienSpaceship>(AlienSpaceship, transform, ActorSpawnParameters);
-	spaceship->SetDirection(AlienSpaceshipDirection);
+	spaceship->UpdateScoreDelegate.AddUObject(this, &AClassicGameMode::IncreaseScore);
 
 	// Change direcion of the next spaceship
 	AlienSpaceshipDirection = -AlienSpaceshipDirection;
+}
+
+void AClassicGameMode::IncreaseScore(uint8 value)
+{
+	Score += value;
+	UE_LOG(LogTemp, Warning, TEXT("This is the score: %d"), Score);
 }
 
 // Replace a pointer to an AAlien by a nullptr. Keeping the size of the array.

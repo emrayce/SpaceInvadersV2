@@ -13,6 +13,7 @@ AAlienSpaceship::AAlienSpaceship()
 	RootComponent = Mesh;
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
 
+	Mesh->OnComponentHit.AddDynamic(this, &AAlienSpaceship::Broadcast);
 }
 
 // Called when the game starts or when spawned
@@ -32,3 +33,17 @@ void AAlienSpaceship::SetDirection(int value)
 	Direction = value;
 }
 
+uint8 AAlienSpaceship::GetScore()
+{
+	return Score;
+}
+
+void AAlienSpaceship::SetScore(int value)
+{
+	Score = value;
+}
+
+void AAlienSpaceship::Broadcast(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	UpdateScoreDelegate.Broadcast(Score);
+}

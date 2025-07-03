@@ -10,6 +10,8 @@
 
 #include "AlienSpaceship.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FUpdateScoreSignature, uint8 /*Score*/);
+
 UCLASS()
 class SPACEINVADERSV2_API AAlienSpaceship : public AActor
 {
@@ -21,7 +23,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	void SetDirection(int value);
+	void  SetDirection(int value);
+	uint8 GetScore();
+	void  SetScore(int value);
+	UFUNCTION()
+	void Broadcast(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	FUpdateScoreSignature UpdateScoreDelegate;
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,5 +44,4 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	int Direction; // 1 is right -1 is left
 	uint8 Score;
-
 };

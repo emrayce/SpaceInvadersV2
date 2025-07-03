@@ -14,7 +14,6 @@
 /**
  * 
  */
-
 #define NB_ALIENS_ROW	 5
 #define NB_ALIENS_COLUMN 11
 
@@ -38,6 +37,7 @@ protected:
 private:
 	void SpawnAliens();
 	void SpawnAlienSpaceship();
+	void IncreaseScore(uint8 value);
 
 protected:
 	// Matrix holding the references to the aliens
@@ -69,4 +69,6 @@ private:
 	float CurrentAttackDelay;
 	float SpawnTimer;
 	int	  AlienSpaceshipDirection; // 1 is right -1 is left
+
+	//FHandleAliensDeathReaction HandleAlienDeathReactionTrigger;
 };
