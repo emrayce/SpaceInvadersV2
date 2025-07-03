@@ -26,14 +26,14 @@ public:
 	void  SetDirection(int value);
 	uint8 GetScore();
 	void  SetScore(int value);
-	UFUNCTION()
-	void Broadcast(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	FUpdateScoreSignature UpdateScoreDelegate;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UFUNCTION()
+	void BroadcastScore(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 protected:
 	UPROPERTY(EditDefaultsOnly)

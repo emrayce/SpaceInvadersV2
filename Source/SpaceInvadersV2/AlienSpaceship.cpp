@@ -2,6 +2,7 @@
 
 
 #include "AlienSpaceship.h"
+#include "Projectile.h"
 
 // Sets default values
 AAlienSpaceship::AAlienSpaceship()
@@ -13,7 +14,7 @@ AAlienSpaceship::AAlienSpaceship()
 	RootComponent = Mesh;
 	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
 
-	Mesh->OnComponentHit.AddDynamic(this, &AAlienSpaceship::Broadcast);
+	Mesh->OnComponentHit.AddDynamic(this, &AAlienSpaceship::BroadcastScore);
 }
 
 // Called when the game starts or when spawned
@@ -43,7 +44,13 @@ void AAlienSpaceship::SetScore(int value)
 	Score = value;
 }
 
-void AAlienSpaceship::Broadcast(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AAlienSpaceship::BroadcastScore(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UpdateScoreDelegate.Broadcast(Score);
+	// We update the score only if the player projectile hit this actor.
+	auto tmp = Cast<AProjectile>(OtherActor);
+	if (tmp)
+	{
+		UpdateScoreDelegate.Broadcast(Score);
+	}
+	Destroy();
 }
