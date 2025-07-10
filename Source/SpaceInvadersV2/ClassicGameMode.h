@@ -17,6 +17,8 @@
 #define NB_ALIENS_ROW	 5
 #define NB_ALIENS_COLUMN 11
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUpdateUIScoreSignature, int32, Score);
+
 UCLASS()
 class SPACEINVADERSV2_API AClassicGameMode : public AGameModeBase
 {
@@ -26,6 +28,9 @@ public:
 	void InitGameState() override;
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FUpdateUIScoreSignature UpdateUIScoreDelegate;
 
 protected:
 	UFUNCTION(BlueprintCallable)

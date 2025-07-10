@@ -110,6 +110,7 @@ void AClassicGameMode::IncreaseScore(uint8 value)
 {
 	Score += value;
 	UE_LOG(LogTemp, Warning, TEXT("This is the score: %d"), Score);
+	UpdateUIScoreDelegate.Broadcast(Score);
 }
 
 // Replace a pointer to an AAlien by a nullptr. Keeping the size of the array.
