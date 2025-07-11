@@ -11,6 +11,7 @@ AAlien::AAlien()
 
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
 	RootComponent = Mesh;
+	Mesh->OnComponentHit.AddDynamic(this, &AAlien::TriggerAlienDeath);
 }
 
 // Called when the game starts or when spawned
@@ -52,12 +53,12 @@ void AAlien::Tick(float DeltaTime)
 
 uint8 AAlien::GetColPos() const
 {
-	return Column;
+	return Col;
 }
 
 void AAlien::SetColPos(uint8 x)
 {
-	Column = x;
+	Col = x;
 }
 
 uint8 AAlien::GetRowPos() const
@@ -74,4 +75,10 @@ AProjectile* AAlien::Shoot()
 {
 	FVector pos = GetActorLocation() + FVector(0, 50, 0); // give a little offset to spawn in ront of the player
 	return GetWorld()->SpawnActor<AProjectile>(ProjectileToSpawn, pos, FRotator(0, 0, 0));
+}
+
+void AAlien::TriggerAlienDeath(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	AlienDeathDelegate.Broadcast(Col, Row, Score);
+	Destroy();
 }

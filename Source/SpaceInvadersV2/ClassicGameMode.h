@@ -43,6 +43,7 @@ private:
 	void SpawnAliens();
 	void SpawnAlienSpaceship();
 	void IncreaseScore(uint8 value);
+	void AlienDeath(uint8 col, uint8 row, uint8 score);
 
 protected:
 	// Matrix holding the references to the aliens

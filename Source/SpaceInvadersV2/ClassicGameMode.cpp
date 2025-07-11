@@ -69,11 +69,18 @@ void AClassicGameMode::SpawnAliens()
 				AlienToBeSpawned = BigAlien;
 			}
 
+			// Spawn and init the alien
+			FActorSpawnParameters ActorSpawnParameters;
+			ActorSpawnParameters.CustomPreSpawnInitalization = [&](AActor* tmpAlien)
+				{
+					Cast<AAlien>(tmpAlien)->SetColPos(col);
+					Cast<AAlien>(tmpAlien)->SetRowPos(row);
+				};
 			FVector				  Position(125 * col, 125 * row, 100);
 			FTransform			  Transform(FRotator(0, 0, 0), Position);
-			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform);
-			Aliens[Index(row, col)]->SetRowPos(row);
-			Aliens[Index(row, col)]->SetColPos(col);
+			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform, ActorSpawnParameters);
+			// Bind to the delegate trigerring on Alien death
+			Aliens[Index(row, col)]->AlienDeathDelegate.AddUObject(this, &AClassicGameMode::AlienDeath);
 			++AlienCount;
 		}
 	}
@@ -113,8 +120,14 @@ void AClassicGameMode::IncreaseScore(uint8 value)
 	UpdateUIScoreDelegate.Broadcast(Score);
 }
 
+void AClassicGameMode::AlienDeath(uint8 col, uint8 row, uint8 score)
+{
+	IncreaseScore(score);
+	RemoveAlien(col, row);
+}
+
 // Replace a pointer to an AAlien by a nullptr. Keeping the size of the array.
-void AClassicGameMode::RemoveAlien(uint8 row, uint8 col)
+void AClassicGameMode::RemoveAlien(uint8 col, uint8 row)
 {
 	Aliens[Index(row, col)] = nullptr;
 }

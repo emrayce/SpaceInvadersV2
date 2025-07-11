@@ -13,8 +13,8 @@
 #include "Alien.generated.h"
 
 
-UDELEGATE()
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAlienDeath, uint8, col, uint8, row, uint8, score);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FAlienDeathSignature, uint8 /*col*/, uint8 /*row*/, uint8 /*score*/);
+
 
 UCLASS()
 class SPACEINVADERSV2_API AAlien : public AActor
@@ -34,10 +34,13 @@ public:
 	void  SetRowPos(uint8 y);
 
 	AProjectile* Shoot();
+	FAlienDeathSignature AlienDeathDelegate; 
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	UFUNCTION()
+	void TriggerAlienDeath(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* Mesh;
@@ -46,7 +49,7 @@ protected:
 
 	// Position of the alien in the alien list
 	UPROPERTY(BlueprintReadOnly)
-	uint8 Column;
+	uint8 Col;
 	UPROPERTY(BlueprintReadOnly)
 	uint8 Row;
 	// Waiting time before another movement
@@ -64,7 +67,4 @@ protected:
 	int Speed;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	uint8 Score;
-
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FAlienDeath AlienDeathTrigger;
 };
