@@ -19,6 +19,7 @@ void APlayerSpaceshipController::SetupInputComponent()
 
     //Set up gameplay input bindings
     InputComponent->BindAxis("Horizontal", this, &APlayerSpaceshipController::CallMove);
+    InputComponent->BindAction("Pause", IE_Pressed, this, &APlayerSpaceshipController::Pause).bExecuteWhenPaused = true;
 }
 
 void APlayerSpaceshipController::UpdatePossessedPawn(APlayerSpaceship* PawnToPossessed)
@@ -36,4 +37,9 @@ void APlayerSpaceshipController::CallMove(float AxisValue)
     {
         PossessedPawn->Move(AxisValue);
     }
+}
+
+void APlayerSpaceshipController::Pause()
+{
+    SetPause(!IsPaused());
 }

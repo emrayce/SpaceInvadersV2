@@ -26,6 +26,7 @@ public:
 protected:
 	
 	void CallMove(float AxisValue);
+	void Pause();
 	UPROPERTY(BlueprintReadWrite)
 	APlayerSpaceship* PossessedPawn;
 };
