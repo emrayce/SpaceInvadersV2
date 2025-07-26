@@ -10,6 +10,8 @@ void APlayerSpaceshipController::BeginPlay()
     // Retrieve the pawn
     PossessedPawn = Cast<APlayerSpaceship>(GetPawn());
     bAutoManageActiveCameraTarget = false;
+
+    CreatedWidget = CreateWidget(GetWorld(), WidgetReference);
 }
 
 // Currently when respawning the the player doesn't move despite CallMove
@@ -33,7 +35,7 @@ void APlayerSpaceshipController::UpdatePossessedPawn(APlayerSpaceship* PawnToPos
 
 void APlayerSpaceshipController::CallMove(float AxisValue)
 {
-    if (PossessedPawn)
+    if (PossessedPawn) 
     {
         PossessedPawn->Move(AxisValue);
     }
@@ -42,4 +44,12 @@ void APlayerSpaceshipController::CallMove(float AxisValue)
 void APlayerSpaceshipController::Pause()
 {
     SetPause(!IsPaused());
+    if (IsPaused())
+    {
+        CreatedWidget->AddToViewport();
+    }
+    else
+    {
+        CreatedWidget->RemoveFromParent();
+    }
 }
