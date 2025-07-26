@@ -13,7 +13,6 @@
 /**
  * 
  */
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FSetPauseSignature, bool, IsPause);
 
 UCLASS()
 class SPACEINVADERSV2_API APlayerSpaceshipController : public APlayerController
@@ -26,8 +25,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdatePossessedPawn(APlayerSpaceship* PawnToPossessed);
 
-	UPROPERTY(BlueprintAssignable, BlueprintCallable)
-	FSetPauseSignature SetPauseTrigger;
 
 protected:
 	

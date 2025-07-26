@@ -47,9 +47,11 @@ void APlayerSpaceshipController::Pause()
     if (IsPaused())
     {
         CreatedWidget->AddToViewport();
+        bShowMouseCursor = true;
     }
     else
     {
         CreatedWidget->RemoveFromParent();
+        bShowMouseCursor = false;
     }
 }
