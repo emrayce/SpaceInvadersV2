@@ -7,6 +7,7 @@
 
 #include "Alien.h"
 #include "AlienSpaceship.h"
+#include "Blueprint/UserWidget.h"
 #include "GameCamera.h"
 
 #include "ClassicGameMode.generated.h"
@@ -73,6 +74,13 @@ protected:
 	uint8 PlayerLife;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	AGameCamera* Camera;
+
+	// widget reference so that we can create a widget on startup
+	UPROPERTY(EditDefaultsOnly, NoClear, Category = "UI")
+	TSubclassOf<UUserWidget> DeathMenuWidgetReference;
+	// actual reference to the created widget
+	UPROPERTY()
+	UUserWidget* DeathMenuWidget;
 
 private:
 	// Current time between two shots

@@ -18,6 +18,8 @@ void AClassicGameMode::InitGameState()
 	SpawnAliens();
 	SpawnTimer = FMath::RandRange(5.0f, 15.0f);
 	AlienSpaceshipDirection = -1; // First spaceship spawns to the right and goes the left
+
+	DeathMenuWidget = CreateWidget(GetWorld(), DeathMenuWidgetReference);
 }
 
 void AClassicGameMode::Tick(float DeltaTime)
@@ -27,7 +29,12 @@ void AClassicGameMode::Tick(float DeltaTime)
 	CurrentAttackDelay -= DeltaTime;
 	if (PlayerLife == 0 || AlienCount == 0)
 	{
-		UGameplayStatics::GetPlayerController(GetWorld(), 0)->ConsoleCommand("quit");
+		if (!DeathMenuWidget->GetIsVisible())
+		{
+			GetWorld()->GetFirstPlayerController()->SetPause(true);
+			DeathMenuWidget->AddToViewport();
+			GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
+		}		
 	}
 	if (CurrentAttackDelay <= 0)
 	{
