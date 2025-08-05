@@ -85,7 +85,8 @@ protected:
 private:
 	// Current time between two shots
 	float CurrentAttackDelay;
-	float SpawnTimer;
+	float AlienSpaceshipSpawnTimer;
+	float AlienRespawnTimer;
 	int	  AlienSpaceshipDirection; // 1 is right -1 is left
 
 	//FHandleAliensDeathReaction HandleAlienDeathReactionTrigger;

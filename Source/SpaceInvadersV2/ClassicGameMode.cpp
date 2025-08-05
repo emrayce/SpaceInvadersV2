@@ -15,11 +15,14 @@ void AClassicGameMode::InitGameState()
 	AlienCount = 0;
 	Score = 0; 
 	CurrentAttackDelay = FMath::RandRange(0.5f, 4.0f);
-	SpawnAliens();
-	SpawnTimer = FMath::RandRange(5.0f, 15.0f);
+	AlienSpaceshipSpawnTimer = FMath::RandRange(5.0f, 15.0f);
+	AlienRespawnTimer = 2.0f;
 	AlienSpaceshipDirection = -1; // First spaceship spawns to the right and goes the left
 
 	DeathMenuWidget = CreateWidget(GetWorld(), DeathMenuWidgetReference);
+
+	SpawnAliens();
+
 }
 
 void AClassicGameMode::Tick(float DeltaTime)
@@ -27,7 +30,10 @@ void AClassicGameMode::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	CurrentAttackDelay -= DeltaTime;
-	if (PlayerLife == 0 || AlienCount == 0)
+	AlienSpaceshipSpawnTimer -= DeltaTime;
+
+	// Player's death
+	if (PlayerLife == 0)
 	{
 		if (!DeathMenuWidget->GetIsVisible())
 		{
@@ -36,17 +42,28 @@ void AClassicGameMode::Tick(float DeltaTime)
 			GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 		}		
 	}
-	if (CurrentAttackDelay <= 0)
+	// When all aliens are dead, trigger the respawn after a few seconds
+	if (AlienCount == 0)
+	{
+		AlienRespawnTimer -= DeltaTime;
+		if (AlienRespawnTimer <= 0)
+		{
+			SpawnAliens();
+			AlienRespawnTimer = 2.0f;
+		}
+	}
+	// Make an alen shoot
+	if (AlienCount > 0 && CurrentAttackDelay <= 0)
 	{
 		MakeAlienShoot();
 		CurrentAttackDelay = FMath::RandRange(0.5f, 4.0f);
 	}
 
-	SpawnTimer -= DeltaTime;
-	if (SpawnTimer <= 0)
+	// Spawn an alien spaceship
+	if (AlienCount > 0 && AlienSpaceshipSpawnTimer <= 0)
 	{
 		SpawnAlienSpaceship();
-		SpawnTimer = FMath::RandRange(5.0f, 15.0f);
+		AlienSpaceshipSpawnTimer = FMath::RandRange(5.0f, 15.0f);
 	}
 }
 
@@ -123,7 +140,6 @@ void AClassicGameMode::SpawnAlienSpaceship()
 void AClassicGameMode::IncreaseScore(uint8 value)
 {
 	Score += value;
-	UE_LOG(LogTemp, Warning, TEXT("This is the score: %d"), Score);
 	UpdateUIScoreDelegate.Broadcast(Score);
 }
 
@@ -137,6 +153,7 @@ void AClassicGameMode::AlienDeath(uint8 col, uint8 row, uint8 score)
 void AClassicGameMode::RemoveAlien(uint8 col, uint8 row)
 {
 	Aliens[Index(row, col)] = nullptr;
+	AlienCount--;
 }
 
 void AClassicGameMode::MakeAlienShoot()
@@ -146,7 +163,10 @@ void AClassicGameMode::MakeAlienShoot()
 	do
 	{
 		randIndex = FMath::RandRange(0, Aliens.Num() - 1);
-	} while (Aliens[randIndex] == nullptr);
-
-	Aliens[randIndex]->Shoot();
+	} while (AlienCount > 0 && Aliens[randIndex] == nullptr);
+	// This prevent an infinite loop when all aliens are dead and it searches eternally for a valid shooter
+	if (Aliens[randIndex] != nullptr)
+	{
+		Aliens[randIndex]->Shoot();
+	}
 }
