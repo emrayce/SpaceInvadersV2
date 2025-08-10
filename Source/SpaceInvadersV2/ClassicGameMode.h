@@ -37,6 +37,8 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable)
 	FUpdateUILifeSignature UpdateUILifeDelegate;
 
+	void SetDefeat(bool IsDefeat);
+
 protected:
 	UFUNCTION(BlueprintCallable)
 	void RemoveAlien(uint8 col, uint8 row);
@@ -88,6 +90,8 @@ private:
 	float AlienSpaceshipSpawnTimer;
 	float AlienRespawnTimer;
 	int	  AlienSpaceshipDirection; // 1 is right -1 is left
+	// var to check player's defeat
+	bool Defeat;
 
 	//FHandleAliensDeathReaction HandleAlienDeathReactionTrigger;
 };

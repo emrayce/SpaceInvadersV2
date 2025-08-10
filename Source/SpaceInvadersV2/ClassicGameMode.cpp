@@ -18,6 +18,7 @@ void AClassicGameMode::InitGameState()
 	AlienSpaceshipSpawnTimer = FMath::RandRange(5.0f, 15.0f);
 	AlienRespawnTimer = 2.0f;
 	AlienSpaceshipDirection = -1; // First spaceship spawns to the right and goes the left
+	Defeat = false;
 
 	DeathMenuWidget = CreateWidget(GetWorld(), DeathMenuWidgetReference);
 
@@ -35,12 +36,14 @@ void AClassicGameMode::Tick(float DeltaTime)
 	// Player's death
 	if (PlayerLife == 0)
 	{
-		if (!DeathMenuWidget->GetIsVisible())
-		{
-			GetWorld()->GetFirstPlayerController()->SetPause(true);
-			DeathMenuWidget->AddToViewport();
-			GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
-		}		
+		Defeat = true;
+	}
+	// Display the death menu
+	if (Defeat && !DeathMenuWidget->GetIsVisible())
+	{
+		GetWorld()->GetFirstPlayerController()->SetPause(true);
+		DeathMenuWidget->AddToViewport();
+		GetWorld()->GetFirstPlayerController()->bShowMouseCursor = true;
 	}
 	// When all aliens are dead, trigger the respawn after a few seconds
 	if (AlienCount == 0)
@@ -147,6 +150,11 @@ void AClassicGameMode::AlienDeath(uint8 col, uint8 row, uint8 score)
 {
 	IncreaseScore(score);
 	RemoveAlien(col, row);
+}
+
+void AClassicGameMode::SetDefeat(bool IsDefeat)
+{
+	Defeat = IsDefeat;
 }
 
 // Replace a pointer to an AAlien by a nullptr. Keeping the size of the array.
