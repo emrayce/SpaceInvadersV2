@@ -9,9 +9,21 @@ AAlien::AAlien()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
-	RootComponent = Mesh;
-	Mesh->OnComponentHit.AddDynamic(this, &AAlien::TriggerAlienDeath);
+	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("SceneComponent"));
+	RootComponent = SceneComponent;
+
+	StateMesh1 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StateMesh1"));
+	StateMesh1->SetupAttachment(RootComponent);
+	StateMesh2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StateMesh2"));
+	StateMesh2->SetupAttachment(RootComponent);
+
+	//Subscribe the trigger alien death when a mesh is hit
+	StateMesh1->OnComponentHit.AddDynamic(this, &AAlien::TriggerAlienDeath);
+	StateMesh2->OnComponentHit.AddDynamic(this, &AAlien::TriggerAlienDeath);
+
+	// Set the second mesh to invisible and disable physics to avoid projectile hitting unseen mesh.
+	StateMesh2->SetVisibility(false);
+	StateMesh2->SetGenerateOverlapEvents(false);
 }
 
 // Called when the game starts or when spawned
@@ -22,6 +34,9 @@ void AAlien::BeginPlay()
 	Timer = TimeBeforeMove;
 	CurrentLateralMove = 0;
 	Direction = 1;
+
+	StateMesh1->SetRelativeLocation(GetActorLocation());
+	StateMesh2->SetRelativeLocation(GetActorLocation());
 }
 
 // Called every frame
@@ -38,6 +53,8 @@ void AAlien::Tick(float DeltaTime)
 			SetActorLocation(GetActorLocation() + FVector(0, 50, 0));
 			Direction = -Direction;
 			CurrentLateralMove = 0;
+			// Trigger animation
+			SwitchAnimationState();
 			// Each time an alien go down he moves a little bit faster by 10%
 			TimeBeforeMove -= TimeBeforeMove * 0.1f;
 		}
@@ -46,6 +63,8 @@ void AAlien::Tick(float DeltaTime)
 			// Lateral move
 			SetActorLocation(GetActorLocation() + FVector(50 * Direction, 0, 0));
 			CurrentLateralMove++;
+			// Trigger animation
+			SwitchAnimationState();
 		}
 		Timer = TimeBeforeMove;
 	}
@@ -81,4 +100,26 @@ void AAlien::TriggerAlienDeath(UPrimitiveComponent* HitComponent, AActor* OtherA
 {
 	AlienDeathDelegate.Broadcast(Col, Row, Score);
 	Destroy();
+}
+
+void AAlien::SwitchAnimationState()
+{
+	// if state 1 pass to state 2
+	if (StateMesh1->IsVisible())
+	{
+		StateMesh1->SetVisibility(false);
+		StateMesh1->SetGenerateOverlapEvents(false);
+
+		StateMesh2->SetVisibility(true);
+		StateMesh2->SetGenerateOverlapEvents(true);	
+	}
+	// else pass to state 2
+	else
+	{
+		StateMesh2->SetVisibility(false);
+		StateMesh2->SetGenerateOverlapEvents(false);
+
+		StateMesh1->SetVisibility(true);
+		StateMesh1->SetGenerateOverlapEvents(true);
+	}
 }

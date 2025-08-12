@@ -103,7 +103,7 @@ void AClassicGameMode::SpawnAliens()
 					Cast<AAlien>(tmpAlien)->SetColPos(col);
 					Cast<AAlien>(tmpAlien)->SetRowPos(row);
 				};
-			FVector				  Position(125 * col, 125 * row, 100);
+			FVector				  Position(100 * col, 100 * row, 100);
 			FTransform			  Transform(FRotator(0, 0, 0), Position);
 			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform, ActorSpawnParameters);
 			// Bind to the delegate trigerring on Alien death
