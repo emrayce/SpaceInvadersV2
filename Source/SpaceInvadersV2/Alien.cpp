@@ -35,8 +35,8 @@ void AAlien::BeginPlay()
 	CurrentLateralMove = 0;
 	Direction = 1;
 
-	StateMesh1->SetRelativeLocation(GetActorLocation());
-	StateMesh2->SetRelativeLocation(GetActorLocation());
+	StateMesh1->SetRelativeLocation(FVector(0, 0, 0));
+	StateMesh2->SetRelativeLocation(FVector(0, 0, 0));
 }
 
 // Called every frame
@@ -102,6 +102,7 @@ void AAlien::TriggerAlienDeath(UPrimitiveComponent* HitComponent, AActor* OtherA
 	Destroy();
 }
 
+// Fake an animation by changing the visible mesh. Called when alien moves.
 void AAlien::SwitchAnimationState()
 {
 	// if state 1 pass to state 2
