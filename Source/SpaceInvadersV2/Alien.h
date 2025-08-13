@@ -42,8 +42,18 @@ protected:
 	UFUNCTION()
 	void TriggerAlienDeath(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	void SwitchAnimationState();
+
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* Mesh;
+	USceneComponent* SceneComponent;
+	// Since the animation is only 1 frame and we have only 3 assets without any transitions
+	// It's simpler to just activate and deactivate a state mesh anytime an alien move
+	// Also unreal animation handling is very complex and i want to finish this and move on to another project.
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* StateMesh1;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* StateMesh2;
+		;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AProjectile> ProjectileToSpawn;
 
@@ -67,4 +77,5 @@ protected:
 	int Speed;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	uint8 Score;
+
 };

@@ -83,6 +83,7 @@ void AClassicGameMode::SpawnAliens()
 	{
 		for (uint8 col = 0; col < NB_ALIENS_COLUMN; col++)
 		{
+			FVector Offset(0, 0, 0);
 			if (row == 0)
 			{
 				AlienToBeSpawned = SmallAlien;
@@ -103,7 +104,8 @@ void AClassicGameMode::SpawnAliens()
 					Cast<AAlien>(tmpAlien)->SetColPos(col);
 					Cast<AAlien>(tmpAlien)->SetRowPos(row);
 				};
-			FVector				  Position(125 * col, 125 * row, 100);
+			// Empiric number
+			FVector				  Position(190 * col, 175 * row, 100);
 			FTransform			  Transform(FRotator(0, 0, 0), Position);
 			Aliens[Index(row, col)] = GetWorld()->SpawnActor<AAlien>(AlienToBeSpawned, Transform, ActorSpawnParameters);
 			// Bind to the delegate trigerring on Alien death
